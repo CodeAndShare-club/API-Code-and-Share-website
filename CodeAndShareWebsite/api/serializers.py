@@ -1,26 +1,23 @@
-from .models import Blog, BlogImage, Sponsor, Event, Project
+from .models import Blog, Sponsor, Event, Project, Category
 from rest_framework import serializers
 
 
 #Blog
-
-class BlogImageSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField()
+class CategorySerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
-
+    
     class Meta:
-        model = BlogImage
+        model = Category
         fields = "__all__"
 
 
 
 class BlogSerializer(serializers.ModelSerializer):
-    images = BlogImageSerializer(many=True, read_only=True)
     id = serializers.ReadOnlyField()
-
+    categories= serializers.StringRelatedField(many=True)
     class Meta:
         model = Blog
-        fields = "__all__"
+        fields = ['id', 'title', 'author', 'publish_date', 'header', 'body', 'categories']
 
 
 #Sponsor

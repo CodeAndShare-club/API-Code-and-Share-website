@@ -1,11 +1,26 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.response import Response
-from .models import Blog, BlogImage, Project, Sponsor, Event
-from .serializers import BlogImageSerializer, BlogSerializer, EventSerializer, ProjectSerializer, SponsorSerializer
+from .models import Blog, Category, Project, Sponsor, Event
+from .serializers import CategorySerializer, BlogSerializer, EventSerializer, ProjectSerializer, SponsorSerializer
 
 # Create your views here.
 
+class CategoryViewSet(viewsets.ViewSet):
+    """
+    A simple ViewSet for listing or retrieving Categorys.
+    """
+    def list(self, request):
+        queryset = Category.objects.all()
+        serializer = CategorySerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = Category.objects.all()
+        category = get_object_or_404(queryset, pk=pk)
+        serializer = CategorySerializer(category)
+        return Response(serializer.data)
+    
 
 class BlogViewSet(viewsets.ViewSet):
     """
